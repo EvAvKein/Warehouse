@@ -1,0 +1,656 @@
+:root {
+  --storageSlotsPerRow: 5;
+
+  --slotSize: 5.5rem;
+  --slotBorderCrop: 20.4; /*keep this value a tiny bit below 3.75 times the slotSize rem for proper proportions/fit (e.g 22.4 for 6rem, 22.5 was still showing a sliver of the border image's center*/
+  
+  --slotBorderImageLength: calc(var(--slotSize) / 6);
+  --borderImageFoundation: 3px; /* the border-image property creates a 3px border around which to add the image, which visually seems like padding because it inherits the background-color of its element */
+  --slotMargin: 0.25rem;
+  --slotMarginWithBorderImageLength: calc(var(--slotBorderImageLength) + var(--slotMargin));
+  --totalSlotMargin: calc(var(--slotMarginWithBorderImageLength) + var(--borderImageFoundation));
+
+  --navColor: #110066;
+  --contentDarkerColor: #003C8A;
+  --contentLighterColor: #0055C4;
+  --selectionColor: #0184C7;
+  --bodyColor: #90CBFB;
+  --attentionColor: #FFD432;
+  --textColor: #FFFFFF;
+}
+
+/*~~~~~~~~~~\
+  [GENERAL]
+\~~~~~~~~~~*/
+body {
+  margin: 0;
+  color: var(--textColor);
+  background-color: var(--bodyColor);
+  font-family: sans-serif;
+  letter-spacing: 0.01rem;
+}
+
+main {
+  padding: 1rem;
+}
+
+noscript {
+  display: block;
+  background-color: darkred;
+}
+
+#sidebarButton:focus .sidebar-iconLine, #sidebarButton:hover .sidebar-iconLine,
+summary:focus img, summary:hover img {
+  filter: brightness(0) saturate(100%) invert(94%) sepia(9%) saturate(5020%) hue-rotate(329deg) brightness(107%) contrast(106%);
+  /* filter values generated through https://codepen.io/sosuke/pen/Pjoqqp */
+}
+*:focus, summary:hover {
+  outline: none;
+  color: var(--attentionColor);
+}
+*::selection {
+  background-color: var(--selectionColor);
+}
+*:active {
+  outline: none;
+}
+
+.contentBox {
+  position: relative; /*for absolute-positioned .buttonBottons */
+  background-color: var(--contentDarkerColor);
+  border-radius: 0.4rem;
+  padding: 0.5rem;
+  /* max-width: 80rem; */
+  margin: 1rem auto;
+}
+.contentBox > .contentBox {
+  background-color: var(--contentLighterColor);
+  margin: 0.35rem auto;
+  padding: 0.4rem;
+}
+
+h3 {
+  text-align: center;
+  font-size: calc(var(--slotSize) / 3);
+  margin: 0.25rem 0.25rem 0.5rem;
+  border-bottom: 0.2rem solid;
+  padding-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+#infoBox {
+  margin: 0 auto;
+  max-width: 53.5rem;
+}
+
+dialog {
+  border: none;
+  color: var(--textColor);
+}
+dialog:focus {
+  outline: none;
+  box-shadow: 0 0 0.5rem 0.5rem var(--attentionColor);
+}
+dialog *:focus {
+  outline: none;
+  box-shadow: 0 0 0.25rem 0.25rem var(--attentionColor);
+}
+
+button {
+  cursor: pointer;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  color: inherit; /* these 3 bottom declarations are just to override the UA stylesheet :\ */
+  border: none;
+  font: inherit;
+}
+button:hover {color: var(--attentionColor)}
+
+/*~~~~~~~~~~~~~~~~~~~\
+  [TOPBAR & SIDEBAR]
+\~~~~~~~~~~~~~~~~~~~*/
+header {
+  display: flex;
+  position: fixed;
+  top: 0;
+  background-color: var(--navColor);
+  height: 4rem;
+  width: 100%;
+  z-index: 998;
+}
+
+#sidebarButton {
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  height: fit-content;
+  margin: 1.25rem 0 0 0.75rem;
+  padding: 0;
+}
+
+.sidebar-iconLine {
+  background-color: var(--textColor);
+  height: 0.25rem;
+  width: 2.5rem;
+  border-radius: 1rem;
+}
+.sidebar-iconLine ~ .sidebar-iconLine {margin-top: 0.35rem}
+
+#headerTitlesContainer {
+  justify-self: center;
+  display: inline-block;
+  margin: 0.25rem auto 0;
+  cursor: default;
+}
+#headerTitlesContainer * {
+  color: var(--attentionColor);;
+  margin: 0;
+  text-align: center;
+}
+
+h1 {font-size: 2rem}
+h2 {font-size: 1rem}
+.portmanteau {
+  display: inline-block;
+  visibility: hidden;
+  width: 0;
+  opacity: 0;
+  transition: visibility 0ms 500ms, width 750ms ease-in-out, opacity 250ms ease-out 250ms;
+}
+.portmanteauBox:hover .portmanteau {
+  visibility: visible;
+  width: 1.1em;
+  opacity: 1;
+  transition: width 1250ms ease-in-out, opacity 750ms ease-out 500ms;
+}
+.portmanteauBox:hover .shortmanteau {
+  width: 0.8em;
+}
+
+#sidebar {
+  position: fixed;
+  background-color: var(--navColor);
+  border-top: 0.2rem solid var(--textColor);
+  border-radius: 0 0 0.75rem 0;
+  height: calc(100% - 6.2rem);
+  bottom: 0;
+  width: 15rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  z-index: 995;
+  visibility: hidden; /*to prevent tabbing*/
+  transform: translateX(-100%);
+  transition: visibility 100ms, transform 100ms ease-out;
+}
+
+#sidebar.sidebar-open {
+  visibility: visible;
+  transform: translateX(0%);
+  transition: transform 150ms ease-out;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~\
+  [PROJECTBOX LAYOUT]
+\~~~~~~~~~~~~~~~~~~~~*/
+#projectBox {
+  display: grid;
+  grid-template-areas: 
+    "storage storage trash"
+    "storage storage trash"
+    "shipments shipments shipments";
+  place-items: stretch;
+  gap: 1rem;
+  margin: 4rem auto 0;
+  width: fit-content;
+  justify-items: center;
+}
+
+@media (max-width: 56rem) {
+  #projectBox {
+    grid-template-areas: 
+      "storage storage"
+      "shipments trash";
+  }
+
+  #shipmentsBox {
+    max-width: calc(var(--slotSize) * 4.5);
+  }
+}
+
+@media (max-width: 36rem) {
+  #projectBox {
+    grid-template-areas: 
+      "storage"
+      "trash"
+      "shipments";
+  }
+
+  body #trashAndShopFlex, body #shipmentsAndDashboardFlex {
+    flex-direction: row;
+  }
+}
+
+#storageBox {
+  grid-area: storage;
+  max-width: calc((var(--slotSize) + (var(--totalSlotMargin) * 2)) * var(--storageSlotsPerRow));
+  /* ^ the 3px are coming from the default border-width value, which exists due to the border-image (and doesn't seem to be removable without removing the border-image with it) */
+}
+
+#trashAndShopFlex {
+  grid-area: trash;
+  width: fit-content;
+}
+#trashBox {
+  max-width: calc(var(--slotSize) * 1.5);
+}
+
+#shipmentsAndDashboardFlex {
+  grid-area: shipments;
+}
+
+#trashAndShopFlex, #shipmentsAndDashboardFlex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: space-around;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+#dashboardButton {
+  height: 9rem;
+  width: 9rem;
+}
+#dashboardButton img {
+  margin: auto;
+  height: 85%;
+  width: 85%;
+}
+#dashboardButton:focus {
+  background-color: var(--attentionColor);
+}
+
+/*~~~~~~~~~~~~~\
+  [SLOT BOXES]
+\~~~~~~~~~~~~~*/
+#storageBox, #trashBox, #shipmentsBox, #dashboardButton {
+  margin: auto;
+  min-width: calc(var(--slotSize) * 1.5);
+  min-height: calc(var(--slotSize) * 1.5);
+  background-color: var(--contentLighterColor);
+}
+
+.slotContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.weightBar  {
+  text-align: center;
+  font-size: 2rem;
+  margin: 0.5rem 0.25rem 0.25rem;
+  border-top: 0.2rem solid;
+  padding-top: 0.5rem;
+}
+
+#trashWeightCounter, #shipmentsWeightCounter {
+  display: none;
+}
+
+.sumWeight::before {
+  display: inline-block;
+  content: "";
+  background-image: url("images/weight.svg");
+  background-size: 0.9em;
+  height: 0.9em;
+  width: 0.9em;
+  margin-right: 0.1em;
+}
+
+/*~~~~~~~~\
+  [SLOTS]
+\~~~~~~~~*/
+.containerSlot {
+  position: relative;
+  cursor: default;
+  height: var(--slotSize);
+  width: var(--slotSize);
+  background-color: var(--contentDarkerColor);
+  border-style: solid;
+  border-image: url("images/crateBorder.svg") var(--slotBorderCrop) / var(--slotBorderImageLength) / var(--slotBorderImageLength) stretch;
+  margin: var(--slotMarginWithBorderImageLength);
+}
+.containerSlot:focus {
+  color: var(--textColor);
+  outline: var(--attentionColor) solid calc(var(--slotBorderImageLength));
+}
+
+.itemImage {
+  display: none;
+  position: absolute;
+  top: calc(var(--slotSize) / 20);
+  left: calc(var(--slotSize) / 6.2);
+  height: calc(var(--slotSize) / 1.4);
+  width: calc(var(--slotSize) / 1.4);
+}
+
+.itemCount {
+  display: none;
+  position: absolute;
+  line-height: 1em;
+  bottom: 0;
+  right: 0.1em;
+  font-size: calc(var(--slotSize) / 5);
+}
+
+.slotWeight {
+  display: none;
+  position: absolute;
+  line-height: 1em;
+  bottom: 0;
+  left: 0.1em;
+  font-size: calc(var(--slotSize) / 7);
+}
+.slotWeight::before {
+  position: absolute;
+  content: "";
+  background-image: url("images/weight.svg");
+  background-size: calc(var(--slotSize) / 7);
+  height: calc(var(--slotSize) / 7);
+  width: calc(var(--slotSize) / 7);
+  margin-top: calc((var(--slotSize) / 6.5) * -1.1);
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~\
+  [DYNAMIC PREVIEW KIT]
+\~~~~~~~~~~~~~~~~~~~~~~*/
+.dialogueSelectionSection label {
+  display: inline-block;
+  margin: 0.25rem;
+}
+.dialogueSelectionSection label * {display: block;}
+
+.dialogueSlotCategorySelection {min-width: 7em}
+.dialogueSlotNumberSelection {min-width: 3.5em}
+.dialogueAmountInput {max-width: 3em;}
+
+.dialogueAmountInput::-webkit-inner-spin-button {-webkit-appearance: none;}
+
+#dialogueMenu details select, #dialogueMenu details input[type="number"] { /*for some reason, targeting input without the type attribute doesn't work here*/
+  background-color: var(--contentLighterColor);
+}
+ 
+#dialogueMenu .containerSlot {
+  margin: 1.25rem auto;
+}
+
+/*~~~~~~~~\
+  [MENUS]
+\~~~~~~~~*/
+dialog {
+  margin: 0;
+  background-color: var(--contentLighterColor);
+}
+dialog:focus {
+  color: inherit;
+}
+
+h5 {
+  display: inline-block;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~\
+  [SLOT CONTEXT MENU]
+\~~~~~~~~~~~~~~~~~~~~*/
+#slotContextMenu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  border-radius: 0.25rem;
+  width: fit-content;
+  text-transform: capitalize;
+}
+
+#slotContextMenu h5 {
+  display: block;
+  line-height: 0.8em;
+  margin: 0.1em auto;
+}
+#slotContextMenu hr {
+  margin: 0 0 0.3rem;
+}
+
+.slotContextMenu-section, #slotContextMenu button {
+  text-transform: capitalize;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+.slotContextMenu-section:not(:first-child), #slotContextMenu button {
+  margin-top: 0.4rem;
+};
+
+#slotContextMenu u {
+  display: inline-block;
+  margin-bottom: 0.1em
+}
+.slotContextMenu-section {
+  background-color: #003c8a;
+}
+
+#slotContextMenu button {
+  background-color: #110066;
+  text-align: center;
+  cursor: pointer;
+}
+#slotContextMenu button:hover {color: var(--attentionColor)}
+
+/*~~~~~~~~~~~~~~~\
+  [DIALOGUE-BOX]
+\~~~~~~~~~~~~~~~*/
+#dialogueMenu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  max-width: 30rem;
+  padding: 0.5rem 1rem 0.5rem;
+  border-radius: 1rem;
+  margin: 0;
+  text-align: center;
+}
+
+#dialogueMenu > * {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#dialogueMenu h1, #dialogueMenu h2 {
+  margin: 0.2em auto;
+  width: fit-content;
+}
+
+/* #dialogueMenu input[type="range"] {
+  cursor: pointer;
+  width: 17.5rem;
+  border-radius: 1rem; /*to make the box-shadow highlighting match the element
+}
+#dialogueMenu input[type="range"]::-webkit-slider-runnable-track {
+  background: var(--bodyColor);
+  border-radius: 1rem;
+} */
+
+#dialogueMenu select, #dialogueMenu input[type="number"] {
+  background-color: var(--contentDarkerColor);
+  color: inherit;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  margin: 0.1rem auto;
+  text-transform: capitalize;
+  text-align-last: center; /*normal text-align doesn't work in select elements*/
+}
+#dialogueMenu input[type="number"]::-webkit-inner-spin-button {
+  display: none;
+}
+
+#dialogueMenu button {
+  background-color: #110066;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~\
+  [DIALOGUE-BOX MESSAGE]
+\~~~~~~~~~~~~~~~~~~~~~~~*/
+#messageTitle {
+  white-space: nowrap;
+  border-bottom: 0.1em solid;
+  line-height: 0.9em;
+  margin-bottom: 0.3em;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~\
+  [DIALOGUE-BOX TRANSFER]
+\~~~~~~~~~~~~~~~~~~~~~~~~*/
+#transferBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+}
+
+#transferInitialSection, #transferTargetSection {
+  min-width: 8rem;
+}
+
+#transferMiddleSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.75rem;
+  padding-top: 1rem;
+}
+#transferMiddleSection * {
+  margin-top: 0.25rem;
+}
+
+#transferMiddleSection input[type="number"] {
+  text-align: center;
+  font-size: 1.5rem;
+  width: 4rem;
+}
+
+#transferMiddleSection img {
+  height: 2rem;
+  filter: invert(1);
+}
+
+#transferMiddleSection button {
+  font-size: 0.9rem;
+  padding: 0.25rem;
+  width: 75%;
+}
+
+#transferConfirmButton {
+  margin-top: 0;
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~\
+  [DIALOGUE-BOX DASHBOARD]
+\~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#dialogueMenu table {
+  margin-top: 0.75rem;
+  border-collapse: collapse;
+}
+#dialogueMenu table > * > * {
+  padding: 0.25rem;
+  text-transform: capitalize;
+  border: 0.1rem solid var(--textColor);
+}
+
+/*~~~~~~~~~~~~~~~~\
+  [CRAFTING GRID]
+\~~~~~~~~~~~~~~~~*/
+#craftingGrid {
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  width: calc((var(--slotSize) + (var(--totalSlotMargin) * 2)) * 5);
+}
+
+.craftingLense {
+  background-color: transparent;
+  border-image: none;
+  padding: var(--borderImageFoundation);
+  border: var(--slotMarginWithBorderImageLength) solid silver;
+  margin: 0;
+}
+.craftingLense:focus {
+  outline: none;
+}
+
+.lenseOn {
+  border: inherit inherit var(--attentionColor);
+}
+.lenseOff {
+  visibility: hidden;
+}
+
+/*~~~~~~~~~~~~\
+  [MODIFIERS]
+\~~~~~~~~~~~~*/
+.displayer {
+  display: inline-block;
+}
+
+#dimmer {
+  position: fixed;
+  background-color: #000000;
+  opacity: 0.7;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+}
+
+/*~~~~~~~~~~\
+  [INFOBOX]
+\~~~~~~~~~~*/
+summary {
+  cursor: pointer;
+  line-height: 2rem;
+  overflow: auto;
+}
+details[open] > summary {
+  padding-bottom: 0.1rem;
+  border-bottom: 0.1rem solid var(--textColor);
+  margin-bottom: 0.6rem;
+}
+details[open] summary:focus, details[open] summary:hover {
+  border-color: var(--attentionColor);
+}
+
+.contentBox .contentBox summary {
+  line-height: 1.4rem;
+}
+
+#infoBox li + li {
+  margin-top: 0.7em;
+}
+
+#infoBox ul, #infoBox ol {
+  margin: 0.6rem 0;
+  padding-left: 1.5rem;
+}
+
+#infoBox img {
+  width: 100%;
+}

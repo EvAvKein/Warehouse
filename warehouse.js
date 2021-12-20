@@ -1197,7 +1197,6 @@ const menu = {
       function appendTableHeader(text) {
         let element = document.createElement("th");
         element.innerText = text;
-        // deepcode ignore GlobalReplacementRegex: <warehouse is no longer being maintained>
         element.innerHTML = text.replace(" ", "<br>");
         topTableRow.appendChild(element);
       };

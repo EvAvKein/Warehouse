@@ -11,7 +11,7 @@ document.querySelector("#sidebarButton").addEventListener("click", function() {
   
 //CORE REFERENCES
 const core = {
-  pathToInterfaceImages: "/Warehouse/images",
+  pathToInterfaceImages: "./images",
   get pathToItemImages() {return this.pathToInterfaceImages + "/items"},
 };
 //

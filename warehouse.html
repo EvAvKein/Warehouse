@@ -22,11 +22,11 @@
     </div>
   </header>
   <aside id="sidebar">
-    To modify the warehouse (e.g add new items, edit capacities, etc), open the dashboard by clicking the magic hat icon.<br>
+    To modify the warehouse (e.g add new items, edit slot capacities, etc), open the dashboard by clicking the magic hat icon.<br>
     <br>
-    You can view available slot actions and item stats by right-clicking a non-empty slot.<br>
+    You can view available slot actions and item stats on non-empty slot with the context menu (i.e right-click).<br>
     <br>
-    Dragging a non-empty slot and dropping it onto another will open a transfer menu set to those slots.
+    Dragging a non-empty slot and dropping it onto another will open the transfer menu.
   </aside>
 <main>
 
@@ -37,11 +37,11 @@
 <section id="infoBox">
   <div class="contentBox">
     <h3>Description</h3>
-    Warehouse has been my (Eve Aviv Keinan's) first in-depth programming project, an inventory management interface inspired by the inventory systems in (usually) "sandbox" video-games.<br>
+    Warehouse was my (Eve Aviv Keinan's) first in-depth programming project, an inventory management interface inspired by the those common to the "sandbox" game genre.<br>
     <br>
-    I started work on it at 27.4.2021 and worked on it very sporadically (very rarely up to 6h a day, predominantly less than 30m a day if at all) until somewhen in 9.2021.
-    It was originally created to be the flagship project in my programming portfolio, but it was discontinued in favor of a more worthwhile project. <br>
+    I worked on (sporadically) from late April until mid September 2021. It was created as the flagship project in of my programming portfolio, but ended up getting discontinued for a different one.
   </div>
+
   <div class="contentBox">
     <h3>Questions & Answers</h3>
     <details class="contentBox">
@@ -55,22 +55,20 @@
         </ol>
     </details>
     <details class="contentBox">
-      <summary>Q: Why didn't you use any frameworks or libraries?</summary>
-        A: Since this was my first in-depth programming project (with the languages used, but also in general), I avoided using any frameworks or libraries for this project because:
+      <summary>Q: Why didn't you use any frameworks, libraries, etc?</summary>
+        A: I wanted to practice, evolve, and have evidence of my understanding of the core language for the following reasons:
         <ul>
-          <li>Frameworks & libraries (usually intend to) shortcut and simplify programming: These are beneficial for productivity and readability, but detrimental for displaying one's understanding of the core language (being part of my goal with the project).</li>
-          <li>Frameworks & libraries rise and fall, so testing and evolving my expertise with the core language(s) has more long-term value.</li>
-          <li>Regarding JavaScript in particular: Vanilla code seemed to have more similarities to other languages than code using frameworks/libraries, which would make it easier to start using a different languages if/when I'd want.</li>
-          <li>When using a framework, issues may arise which are the consequence of the underlying vanilla code the framework uses. Being able to interpret (or guess and/or test) said code is valuable.</li>
+          <li>I wanted to have a foundational understanding from which I could more easily grasp new/different tools in the ecosystem, as I've been informed that these are numerous and ephemeral.</li>
+          <li>Those tools can't account for everything, and I was liable to encounter issues which could be better resolved with an understanding of the (presumed/reverse-engineered) underlying vanilla code.</li>
+          <li>I was unsure about my commitment to the language/ecosystem, and Vanilla JavaScript seemed to be more similar to other languages.</li>
         </ul>
     </details>
     <details class="contentBox">
       <summary>Q: Why did you stop working on the project?</summary>
         A:
         <ol>
-          <li>I concluded that, even including all planned features, I was creating a game which is not worth playing: The game wouldn't be unique in any worthwhile way, and its sole hook (spending time doing menial tasks purely to earn momuments of time spent) is one of the worst hooks in video-games.</li>
-          <li>I came up with another project idea which seemed more useful/worthwhile, would allow me to express aspects/interests of myself I'm prouder of, and would be more palatable to recruiters.</li>
-          <li>I've already implemented the vast majority of functionailities (i.e the game mechanics) that distinguish this project from other websites/platforms.</li>
+          <li>I came to the conclusion that I was creating a game which is not worth playing: It wouldn't be unique in any worthwhile way, and its sole hook (spending time doing menial tasks purely to earn momuments of time spent) is one of the worst hooks in video-games.</li>
+          <li>I came up with an idea for a different project which had more use, would allow me to express aspects/interests of myself I'm prouder of, and would be more palatable on my portfolio.</li>
         </ol>
     </details>
     <details class="contentBox">
@@ -78,113 +76,97 @@
         A:<br><br>
         Like: The opportunities it gave me to...<br>
         <ul>
-          <li>Work on an in-depth project in vanilla JS; a thing that I <em>might</em> never bother with again once my free time is nipped by employment, and I even more (seemingly) likely won't get the opportunity to do as part of said employment.</li>
-          <li>Consider, implement, and refine game logic (the summation of which being the overflow mechanic).</li>
-          <li>Find and use the HTML drag-and-drop API.</li>
+          <li>Work on an in-depth project in vanilla JavaScript.</li>
+          <li>Consider, program, and refine game logic.</li>
+          <li>Use the HTML drag-and-drop API.</li>
           <li>Toy with SVG art.</li>
         </ul>
         <br>
         Dislike:<br>
         <ul>
-          <li>
-            The design & CSS: The page's style is very dated/amateur, and the CSS gets the job done but with a horrible implementation in many ways.<br>
-            Fun fact: Before the project got terminated and wrapped-up, the CSS was spread across two files: One file being my theme at the time across my entire website (e.g sidebar, topbar, contentBox class), and the other being the warehouse-specific styling.
+          <li>The design & CSS: The page's style is very dated/amateur, and the CSS gets the job done but with horrible implementation in many ways.</li>
+          <li>The overwhelming nature of the codebase: In hindsight, the following changes seem mandatory for a project of this scale (and especially the scale I had in mind for it)
+            <ol>
+              <li>Much of the code needs to be extracted into modules/helpers.</li>
+              <li>TypeScript.</li>
+              <li>A component-based framework.</li>
+            </ol>
           </li>
-          <li>
-            The unintuitive use of "let" and "const": I originally used "let" in all cases (my reasoning being that it's more verbally readable), and when the JS got large enough that I created method categories ("infer", "calculate", etc) I found the darker color of const variables (by VScode default syntax highlighting) more visually appealing, and the lesser readability of the const declaration was not an issue since I exclusively used it in the very specific situation of declaring said method categories.<br>
-            I rationalized myself into this very personalized/subjective decision (and many others in the project) by telling myself there's 0% chance anyone will ever want to contribute to the code. As is (hopefully) evident by my phrasing, in hindsight I disagree with that reasoning much more.
-          </li>
-          <li>
-            This is less of an outright dislike and more of an unresolved doubt: Constructing slot & box objects and then using method categories ("infer", "calculate", etc) upon them, instead of constructing them as part of classes with the relevant prototype methods.<br>
-            <br>
-            The former is seemingly the only viable option of those two in full-stack: The objects wouldn't be able to retain prototypes since they're extracted from a database, and the methods would instead be executed on the server/client.<br>
-            The latter might've been better in this final, frontend-only implementation... and I'm saying "might" because this would split the location of functions from just method categories into method categories and class prototypes, and the benefit of being able to call object-centric methods from its own prototype could very well be negated by the worse readability of the codebase due to said split.
-          </li>
-          <li>That the time and thought put into the project merely resulted in a quirky frontend-only interface of negligible practical and recreational value.</li>
+          <li>The wrong and/or unintuitive use of <code>let</code> & <code>const</code>: I used <code>let</code> for everthing except global objects, for which I used <code>const</code> solely for the color/syntax highlighting.</li>
         </ul>
     </details>
     <details class="contentBox">
-      <summary>Q: Where's all the art from?</summary>
+      <summary>Q: Source for the assets?</summary>
         A: Got everything from online catalogues (such as, but not limited to, svgrepo.com), and used the incredibly helpful boxy-svg.com to edit/combine them as I wished.<br>
-        ...except for the rock image; that one was made by a friend ("Kostusha") who offered to do so after seeing the poor quality of the previous rock image.<br>
+        ...Except for the rock image; That one was made by a friend ("Kostusha") who offered to do so after seeing the poor quality of the previous one.<br>
         <br>
         (I've only used stuff which is either explicitly not under any license or under CC0 1.0 Universal Public Domain Dedication.)
     </details>
-    <!-- <details class="contentBox">
-      <summary>Q: What were your browser compatibility standards with this project?</summary>
-        A: For this project, I didn't sacrifice the quality of my code for the sake of browser compatibility (unless it's for my own browser of choice, Chrome), because:<br>
-        <ol>
-          <li>My target demographics were extremely likely to use a modern browser.</li>
-          <li>Not <em>needing</em> to compromise code brevity/readability for the sake of dated browser support is a privilege, and I'd wanted to enjoy that privilege while it was viable</li>
-        </ol>
-        <br>
-        When in doubt, I use(d) <a href="https://www.caniuse.com">caniuse.com</a> to look up feature compatibility.
-    </details> -->
-  </div>
-
-  <div class="contentBox">
-    <h3>Planned Features (in sequence)</h3>
-    <ul>
-      <li>Craftable utility and cosmetic upgrades.<br>
-        <br>
-        Very rough sketch of the menu:<br>
-        <img class="craftingIllustration" src="/Warehouse/images/craftIllustration-menu.png" alt="Amateurly-drawn illustration of the planned crafting menu">
-        Craftables ideas:
+    <details class="contentBox">
+      <summary>Q: What did you plan on adding to this project?</summary>
+        A:
         <ul>
-          <li>Extra slots (expanded warehouse/trashcans/shipments shack).</li>
-          <li>Raised weight cap (reinforced flooring/shelving?).</li>
-          <li>Offline auto-looting from shipments while storage has capacity (gatherer/servant/labourer).</li>
-          <li>Resource-sink profile badges (e.g property).</li>
-          <li>Custom icons/color palletes (presets for sure, maybe even an expensive user-selected option with the option to upload personal item image replacements).</li>
-          <li>Sorting by item/slot weight/count/name (advanced/dynamic shelving/storage).</li>
-          <li>Capacity multipler for slots (??) or per item/type (efficient packaging).</li>
+          <li>Craftable utility and cosmetic upgrades.<br>
+            <br>
+            Very rough sketch of the menu:<br>
+            <img class="craftingIllustration" src="./images/craftIllustration-menu.png" alt="Amateurly-drawn illustration of the planned crafting menu">
+            Craftables ideas:
+            <ul>
+              <li>Extra slots (expanded warehouse/trashcans/shipments shack).</li>
+              <li>Raised weight cap (reinforced flooring/shelving?).</li>
+              <li>Offline auto-looting from shipments while storage has capacity (gatherer/servant/labourer).</li>
+              <li>Resource-sink profile badges (e.g property).</li>
+              <li>Custom icons/color palletes (presets for sure, maybe even an expensive user-selected option with the option to upload personal item image replacements).</li>
+              <li>Sorting by item/slot weight/count/name (advanced/dynamic shelving/storage).</li>
+              <li>Capacity multipler for slots (??) or per item/type (efficient packaging).</li>
+            </ul>
+            <br>
+            Example crafting grid (this one would create a small building/shack, likely for extra storage space):
+            <img class="craftingIllustration" src="./images/craftIllustration-grid.svg" alt="Vector illustration of the planned crafting grid">
+            The grid would move with the cursor, and each crafting requirement slot would need to be hovered (detected with the IntersectionObserver API?) above an storage slot containing a matching item type and a sufficient quantity thereof, in order to craft the craftable at hand. This obviously would require the storage to be sorted appropriately before activating the grid.<br>
+            <br>
+            When hovering a grid above slots which don't match the criteria, each applicable grid slot would indicate as such (probably by being partially transparent and/or turning red).
+          </li>
+          <br>
+          <li>Complete touch-screen compatibility (might already exist, testing required).</li>
+          <li>Unique slot border-image for each section (storage/trash/shipments).</li>
+          <li>Proper backend, with the capacity for saved profiles (and taking the appropriate measures to close vulnerabilities).</li>
+          <li>Access to saved profiles through login options provided by other platforms (e.g Google, GitHub, Twitter).</li>
+          <li>Periodic, randomized-to-an-extent loot generation system, with backend settings for:
+            <ul>
+              <li>Item/Category (individual items/categories, or just randomly from all).</li>
+              <li>Quantity (each item/category will have a default range for when no quantity is stated, and this quantity <em>might</em> be adjusted for each player based on their wealth).</li>
+              <li>Frequency (give X items of Y amount once now / give X items of Y amount every Z period of time).</li>
+              <li>Target (all users or specific user(s)).</li>
+              <li>Duration (lootable until X time passes or it'll disappear for users who didn't loot).</li>
+            </ul>
+          </li>
+          <li>Git & GitHub upload and online hosting which is synced to the repository.</li>
+          <li>Online users list and/or a friends list.</li>
+          <li>Live trading system with other online users and/or Steam-style trade offers.</li>
+          <li>Warehouse Twitter profile with API-enabled loot drops, which works by parsing the text of each new tweet from the account and executes loot drops if/when the tweet contains a valid keyword for enough parameters (parameters being all of the ones in the aforementioned loot generation settings, plus relative/absolute time of the drop), e.g "In 3 hours everyone will be able to loot 8 logs! These shipments will only be available for the proceeding 48 hours".</li>
         </ul>
-        <br>
-        Example crafting grid (this one would create a small building/shack, likely for extra storage space):
-        <img class="craftingIllustration" src="/Warehouse/images/craftIllustration-grid.svg" alt="Vector illustration of the planned crafting grid">
-        The grid would move with the cursor, and each crafting requirement slot would need to be hovered (detected with the IntersectionObserver API?) above an storage slot containing a matching item type and a sufficient quantity thereof, in order to craft the craftable at hand. This obviously would require the storage to be sorted appropriately before activating the grid.<br>
-        <br>
-        When hovering a grid above slots which don't match the criteria, each applicable grid slot would indicate as such (probably by being partially transparent and/or turning red).
-      </li>
-      <br>
-      <li>Complete touch-screen compatibility (might already exist, testing required).</li>
-      <li>Unique slot border-image for each section (storage/trash/shipments).</li>
-      <li>Proper backend, with the capacity for saved profiles (and taking the appropriate measures to close vulnerabilities).</li>
-      <li>Access to saved profiles through login options provided by other platforms (e.g Google, GitHub, Twitter).</li>
-      <li>Periodic, randomized-to-an-extent loot generation system, with backend settings for:
-        <ul>
-          <li>Item/Category (individual items/categories, or just randomly from all).</li>
-          <li>Quantity (each item/category will have a default range for when no quantity is stated, and this quantity <em>might</em> be adjusted for each player based on their wealth).</li>
-          <li>Frequency (give X items of Y amount once now / give X items of Y amount every Z period of time).</li>
-          <li>Target (all users or specific user(s)).</li>
-          <li>Duration (lootable until X time passes or it'll disappear for users who didn't loot).</li>
-        </ul>
-      </li>
-      <li>Git & GitHub upload and online hosting which is synced to the repository.</li>
-      <li>Online users list and/or a friends list.</li>
-      <li>Live trading system with other online users and/or Steam-style trade offers.</li>
-      <li>Warehouse Twitter profile with API-enabled loot drops, which works by parsing the text of each new tweet from the account and executes loot drops if/when the tweet contains a valid keyword for enough parameters (parameters being all of the ones in the aforementioned loot generation settings, plus relative/absolute time of the drop), e.g "In 3 hours everyone will be able to loot 8 logs! These shipments will only be available for the proceeding 48 hours".</li>
-    </ul>
-  </div>
-
-  <div class="contentBox">
-    <h3>Development Anecdotes</h3>
-    <ul>
-      <li>
-        I started this project with a very rudimentary understanding of JavaScript (e.g learned about loops and methods) and took this project on as a way to test that understanding; with the knowledge that that even my immediate ambitions for the project are beyond my experience at the time, and trusting that Google (and/or W3Schools, MDN, and StackOverflow in no particular order) will teach me whatever code I'd need to accomplish it ...at least up until the point at which I'd need to handle a backend or an API, which would be when I'd continue my structured online course studies.
-      </li>
-      <li>
-        I've originally handled JS element creation entirely by HTML strings, but as I reached the point when I wanted to create modular element 'kits' (e.g dynamicPreviewKit in the JS) I figured that attaching event listeners to them, and their component children, would be much easier/cleaner if I switched to node-based element creation (i.e document.createElement).<br>
-        An additional benefit I realized soon after is that, for elements that get added and removed often (i.e menus), creating them as nodes instead of inserting HTML made it possible to, after the the first time the element is created, redefine their function to simply append the already-created element node (and adjust it as needed), thus eliminating the redundency of creating the element anew every time it's requested.<br>
-        <br>
-        As I developed an appreciation for nodes, this reformatting snowballed to all but 2 holdout elements which had enough children (when none needed listeners) that they didn't seem to merit being created as nodes (since HTML is more concise and a small bit more readable): slotElement and boxElement. In order to make them fit in alongside the rest of the node-inserting code, I've used a function I found online ("infer.HTMLAsNode") to convert their HTML to a node.
-      </li>
-      <li>
-        At the very beginning of development I had just finished learning about arrays, and was thus very eager to implement them (especially since implementing my newfound knowledge was one of my reasons for starting the project).<br>
-        I decided to structure the information for the item slots by using an array for each kind of value, in which the position of the value would correspond to the slot (e.g storageCountArray[3] would contain the item count value for slot 4 in the storage box).<br>
-        I soon realized that the having an object represent each slot is a <em>much</em> more intuitive and readable choice, and outweighs minor conveniences such as calculating total weight by summing the box's weights array.
-      </li>
-    <ul>
+    </details>
+    <details class="contentBox">
+      <Summary>Q: Got some development anecdotes?</Summary>
+      A:
+      <ul>
+        <li>
+          I started this project with a very rudimentary understanding of JavaScript (e.g learned about loops and methods) and took this project on as a way to test that understanding; with the knowledge that that even my immediate ambitions for the project are beyond my experience at the time, and trusting that Google (and/or W3Schools, MDN, and StackOverflow in no particular order) will teach me whatever code I'd need to accomplish it ...at least up until the point at which I'd need to handle a backend or an API, which would be when I'd continue my structured online course studies.
+        </li>
+        <li>
+          I originally handled JS element creation entirely with HTML strings, but as I reached the point where I wanted to create modular element 'kits' (e.g dynamicPreviewKit in project's JS) I figured that attaching event listeners to them, and their component children, would be much easier/cleaner if I switched to node-based element creation (i.e document.createElement).<br>
+          An additional benefit I realized soon after is that, for elements that get added and removed often (i.e menus), creating them as nodes instead of inserting HTML made it possible to, after the the first time the element is created, redefine their function to simply append the already-created element node (and adjust it as needed), thus eliminating the redundency of creating the element anew every time it's requested.<br>
+          <br>
+          As I developed an appreciation for nodes, this reformatting snowballed to all but 2 holdout elements which had enough children (when none needed listeners) that they didn't seem to merit being created as nodes (since HTML is more concise and a small bit more readable): slotElement and boxElement. In order to make them fit in alongside the rest of the node-inserting code, I've used a function I found online ("infer.HTMLAsNode") to convert their HTML to a node.
+        </li>
+        <li>
+          At the very beginning of development I had just finished learning about arrays, and was thus very eager to implement them (especially since implementing my newfound knowledge was one of my reasons for starting the project).<br>
+          I decided to structure the information for the item slots by using an array for each kind of value, in which the position of the value would correspond to the slot (e.g storageCountArray[3] would contain the item count value for slot 4 in the storage box).<br>
+          I soon realized that the having an object represent each slot is a <em>much</em> more intuitive and readable choice, and outweighs minor conveniences such as calculating total weight by summing the box's weights array.
+        </li>
+      <ul>
+    </details>
   </div>
 </section>
 
